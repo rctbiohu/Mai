@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <canvas id="game"></canvas>
+    </body>
+</html>
+<script>
+    var canvas = document.getElementById('game')
+    var ctx = canvas.getContext('2d')
+    canvas.width = 1000
+    canvas.height = 800
+    document.body.appendChild(canvas)
+
+    var fon = new Image()
+    fon.src = "94c56e15f13f1de4740a76742b0b594f.jpeg"
+    var hero = {x:100,y:100}
+    var heroimg = new Image()
+    heroimg.src = "1.jfif"
+    canvas.addEventListener('mousemove',function(event){
+        hero.x = event.offsetX
+        hero.y = event.offsetY
+    })
+    var enemyimg = new Image()
+    enemyimg.src = '2.png'
+    var enemy = {x:200,y:200,dx:1,dy:2}
+    function render(){
+        ctx.drawImage(fon,0,0,1000,800)
+        ctx.drawImage(heroimg,hero.x,hero.y,60,40)
+        ctx.drawImage(enemyimg,enemy.x,enemy.y,60,40)
+
+    }
+    function game(){
+        enemy.x =enemy.x +(1*enemy.dx) 
+        enemy.y =enemy.y + (1*enemy.dy) 
+        if (enemy.x > canvas.width - 50){
+            enemy.dx = -1
+        }
+        if(enemy.x < 0){
+            enemy.dx = 1
+        }
+        if (enemy.y > canvas.width - 50){
+            enemy.dy = -1
+        }
+        if(enemy.y < 0){
+            enemy.dy = 1
+        }
+        if (((hero.x>enemy.x)&&(hero.x +80<enemy.x +80))&&((hero.y>enemy.y)&&(hero.y+80<enemy.y+80))){
+alert("BEBRA!!!!!!!!!!!!")
+        }
+
+        render()
+       // console.log('a')
+    }
+    playmode = setInterval(game,20)
+</script>

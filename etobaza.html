@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+    <body></body>
+    <script>
+var canvas = document.createElement("canvas");
+var c = canvas.getContext("2d");
+canvas.width = window.innerWidth-50;
+canvas.height = window.innerHeight-40;
+document.body.appendChild(canvas);
+fon1 = new Image()
+fon1coord = {x:0}
+fon1.src = '94c56e15f13f1de4740a76742b0b594f.jpeg'
+
+fon2 = new Image()
+fon2coord = {x:0}
+fon2.src = '94c56e15f13f1de4740a76742b0b594f.jpeg'
+
+fon3 = new Image()
+fon3coord = {x:0}
+fon3.src = '94c56e15f13f1de4740a76742b0b594f.jpeg'
+
+
+var gravity = 0.5;
+
+var hjjs = new Image()
+    hjjs.src = "94c56e15f13f1de4740a76742b0b594f.jpeg"
+    hjjscoord=500,400
+
+class Player{
+   constructor(){
+       this.position={x:window.innerWidth/2, y:100}
+       this.width =60;
+       this.height = 100;
+       this.velocity = {x: 0, y: 1}
+    
+   }
+   draw(){
+       c.fillStyle = 'red';
+       c.fillRect(this.position.x, this.position.y, this.width,this.height)
+
+       this.position.y += this.velocity.y
+       this.position.x += this.velocity.x
+       if ((this.position.y + this.height) <= canvas.height){
+           this.velocity.y += gravity;
+       } else{this.velocity.y = 0; this.position.y = canvas.height - this.height }
+     }}
+
+const Igrok = new Player()
+let pic = new Image()
+pic.src='1.jfif'
+
+var playpos = 0;
+class Platform{
+   constructor(x1,y1){
+       this.position={x:x1 , y:y1}
+       this.width =200;
+       this.height = 20;  
+   }
+   draw(){
+       c.fillStyle = 'blue';
+       c.fillRect(this.position.x, this.position.y, this.width,this.height);
+       }}
+
+
+function landing(mesto){
+    if (
+(Igrok.position.y + Igrok.height <= mesto.position.y + mesto.height +5) &&
+(Igrok.position.x + Igrok.width > mesto.position.x) &&
+(Igrok.position.x < mesto.position.x + mesto.width))
+
+{Igrok.velocity.y = 0;}
+if (Igrok.position.y +Igrok.height <= mesto.position.y){
+   Igrok.velocity.y += gravity;
+   Igrok.position.y += Igrok.velocity.y;
+}
+}
+
+function checkplita(mesto){
+    if((Igrok.position.x + Igrok.width > mesto.position.x) &&
+(Igrok.position.x < mesto.position.x + mesto.width)){landing(mesto)}
+}
+
+
+level= [
+    new Platform(50,150),
+    new Platform(250,100)
+]
+
+var karta=[50,250]
+function game(){
+   c.clearRect(0,0,canvas.width,canvas.height)
+   c.drawImage(fon1,fon1coord.x,0,canvas.width,canvas.height)
+   c.drawImage(fon2,fon2coord.x,0,canvas.width,canvas.height)
+   c.drawImage(fon3,fon3coord.x,0,canvas.width,canvas.height)
+   Igrok.draw()
+console.log(level.length)
+   for(let i=0;i<level.length;i++){
+    level[i].position.x = playpos + karta[i]
+    }
+
+
+   level.forEach(plat=>{plat.draw();checkplita(plat)});
+
+   
+   //c.drawImage(pic, Igrok.position.x-30, Igrok.position.y, Igrok.width+60, Igrok.height)
+   if (Igrok.position.x<window.innerWidth/3)
+{Igrok.position.x = window.innerWidth/3}
+
+if (Igrok.position.x>window.innerWidth/3*2)
+{Igrok.position.x = window.innerWidth/3*2}
+
+}
+
+
+igra = setInterval(game, 20)
+
+document.addEventListener('keydown', ({keyCode})=>{
+switch (keyCode){
+case 68:
+//Igrok.velocity.x =5;
+fon1coord.x += 3
+fon2coord.x += 3
+fon3coord.x += 3
+playpos -=20
+break;
+case 65:
+fon1coord.x -= 3
+fon2coord.x -= 3
+fon3coord.x -= 3
+//Igrok.velocity.x =-5;
+playpos += 20
+
+break;
+case 87:
+Igrok.velocity.y =-20;
+break;
+}});
+
+
+document.addEventListener('keyup', ({keyCode})=>{
+switch (keyCode){
+case 68:
+Igrok.velocity.x =0;
+playpos -= 20
+break;
+case 65:
+Igrok.velocity.x =0;
+playpos += 20
+break;
+case 87:
+Igrok.velocity.y =0;
+break;
+}});
+
+
+    </script>
+</html>

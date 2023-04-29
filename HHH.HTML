@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Файт</title>
+    </head>
+    <body>
+        
+    </body>
+    <script>
+
+        var canvas = document.createElement("canvas");
+        var c = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight-25;
+        document.body.appendChild(canvas);
+        var gravity = 0.5
+        var gravity2 = 0.5 
+        var gg = new Image()
+        gg.src = "free-png.ru-61.png"
+        var ruka = new Image()
+        ruka.src = "2.png"
+        class Sprite{
+            constructor({position,velocity,offset,kulak}){
+                this.position = position
+                this.velocity = velocity
+                this.offset = offset
+                this.kulak=kulak
+                this.height = 150
+                this.width = 50
+
+                this.attackBox = {
+                    position:this.position,
+                    width:100,height:50
+                }
+                this.isAttack=false
+            }
+            draw(){
+                c.fillStyle = 'red';
+                c.fillRect(this.position.x, this.position.y, 50,this.height)
+                this.position.y += this.velocity.y
+                this.position.x += this.velocity.x
+            if(this.isAttack){
+                c.fillStyle="green"
+                c.fillRect(
+                    this.attackBox.width,
+                    this.attackBox.height,
+                    this.attackBox.position.x+this.offset,
+                    this.attackBox.position.y,
+                )
+            }
+            }
+            update(){
+                this.draw()
+                if (this.position.y+this.height>=canvas.height){
+                    this.velocity.y=0
+                    gravity = 0.5
+                }
+            
+                else{
+                this.velocity.y += gravity
+            }
+            if 
+                (this.position.y <= canvas.height/4){
+                    this.position.y +=20
+            }
+           
+
+        } 
+        update2(){
+                this.draw()
+                if (this.position.y+this.height>=canvas.height){
+                    this.velocity.y=0
+                    gravity2 = 0.5
+                }
+            
+                else{
+                this.velocity.y += gravity2
+            }
+            if 
+                (this.position.y <= canvas.height/4){
+                    this.position.y +=20
+            }
+        }
+        attack(){
+            this.isAttack = true
+            setTimeout(()=>{this.isAttack = false},100)
+        }
+    
+    }
+    function touch(){
+        if(
+            ((player.attackBox.position.x+player.offset + player.attackBox.width>=enemy.position.x)&&
+            (player.attackBox.position.x+player.offset<=enemy.position.x + enemy.width)) &&
+            ((player.attackBox.position.y+player.attackBox.height>=enemy.position.y))&&
+            player.isAttack)
+    
+        {console.log("connect!")
+        hp2-=1}
+
+    }
+    function touch2(){
+        if(
+            
+            ((enemy.attackBox.position.x+enemy.offset + enemy.attackBox.width>=player.position.x)&&
+            (enemy.attackBox.position.x+enemy.offset<=player.position.x + player.width)) &&
+            ((enemy.attackBox.position.y+enemy.attackBox.height>=player.position.y))&&
+            enemy.isAttack)
+    
+        {console.log("connect2!")
+        hp1-=1}
+
+    }
+        const player = new Sprite({
+            position:{x:0,y:0},velocity:{x:0,y:0}, offset:50
+        })
+        const enemy = new Sprite(
+            {position:{x:400,y:100},velocity:{x:0,y:0},offset:-50
+        })
+       function render(){
+           c.drawImage(gg, player.position.x, player.position.y,60,150)
+           c.drawImage(gg, enemy.position.x, enemy.position.y,60,150)
+           c.drawImage(ruka,100,40, player.position.x, player.position.y)
+           c.drawImage(ruka,100,40, enemy.position.x,enemy.position.y)
+       }
+        function game (){
+            c.fillStyle = "black"
+            c.fillRect(0,0,canvas.width,canvas.height)
+            player.update()
+            enemy.update2()
+            touch()
+            touch2()
+            drawhp()
+            render()
+
+
+        }
+        var hp1 = 100
+        var hp2 = 100
+        function drawhp(){
+            c.fillStyle="green"
+            c.fillRect(10,10,hp1,20)
+            c.fillStyle="green"
+            c.fillRect(10,40,hp2,20)
+            if (hp1<1||hp2<1){
+                clearInterval(igra)
+                console.log("end")
+            }
+        }
+        igra = setInterval(game,20)
+        document.addEventListener("keydown", ({keyCode}) => {
+         switch(keyCode){
+            case 68:
+                player.velocity.x = 5
+                break;
+            
+            case 32:
+                player.velocity.y = -20;
+                gravity2 +=2
+                break;
+                case 65:
+                    player.velocity.x= -5;
+                    break;
+                case 71:
+                    console.log('space open')
+                    player.attack()
+                    break;
+                    
+                case 190:
+                    enemy.velocity.x = 5;
+                    break;
+                case 188  : 
+                    console.log("spase")
+                    enemy.attack()
+                    break;
+                case 186:
+                    enemy.velocity.x=-5
+                    break;
+                case 222:
+                    enemy.velocity.y= -20
+                    gravity2 +=2;
+                    break;
+
+
+         }
+     });
+     document.addEventListener("keyup", ({keyCode}) => {
+        switch(keyCode){
+            case 68:
+                player.velocity.x = 0;
+                break;
+            
+            case 32:
+                player.velocity.y = 0;
+                break;
+                case 65:
+                    player.velocity.x = 0;
+                    break;
+                    case 190:
+                    enemy.velocity.x = 0;
+                    break;
+               
+                case 186:
+                    enemy.velocity.x=0
+                    break;
+                case 222:
+                    enemy.velocity.y= 0
+                    gravity +=4;
+                    break;
+         }
+     });
+       
+
+    </script>
+</html>

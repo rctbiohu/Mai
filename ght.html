@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<body>
+
+</body>
+<script>
+    var canvas = document.createElement("canvas")
+    var cxt = canvas.getContext('2d')
+    document.body.appendChild(canvas)
+    const width = canvas.width = 320
+    const height = canvas.height = 480
+    const sprwidth = 96
+    const sprheight = 105
+    let Kadr = 0
+    let AnimLine = 4
+    let platform = 0
+    const slowframe = 5
+    hero = new Image()
+    hero.src = "heroesheet.png"
+    let long = 9
+    function animate(){
+        cxt.clearRect(0,0,width,height)
+        cxt.drawImage(hero,Kadr*sprwidth,AnimLine*sprheight,sprwidth,sprheight,0,0,width,height)
+        requestAnimationFrame(animate)
+        if (platform % slowframe == 0){
+
+        if (Kadr < 9)
+            Kadr++
+        else Kadr = 0}
+         platform++       
+    
+         if(AnimLine==0){long=0}else{long=9}
+                if(Kadr<0){Kadr=0}else{}
+                if(AnimLine<0){AnimLine=0}else{}
+                if(AnimLine>7){AnimLine=6}else{}
+
+    }
+    animate()
+    document.addEventListener("keydown", ({keyCode}) => {
+         switch(keyCode){
+            
+             
+            case 87:
+                AnimLine +=1
+               break;
+            case 65:
+                AnimLine -=1
+                break;
+                
+         }
+     });
+</script>

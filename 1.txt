@@ -1,0 +1,7 @@
+function collide(item){
+        if ((item.posx +235<mx)&(item.posx+265>mx)&(item.posy+235<my)&(item.posy+265>my)){
+            console.log("аааааааахурма")
+            item.posx = 100000000
+            item.posy = 100000000
+            gold +=1
+        }
